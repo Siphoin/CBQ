@@ -32,13 +32,15 @@ namespace Character
             {
                 localJoystik = Joystik.Active;
 
-                localJoystik.onMove += Move;
             }
         }
         #region Interactions
         private void Move(Vector3 dir)
         {
-
+            if (dir == Vector3.zero)
+            {
+                return;
+            }
             // root to dir joystik local
 
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
@@ -76,6 +78,11 @@ namespace Character
         void Start()
         {
             Init();
+        }
+
+        private void Update()
+        {
+            Move(localJoystik.InputDir);
         }
     }
 }

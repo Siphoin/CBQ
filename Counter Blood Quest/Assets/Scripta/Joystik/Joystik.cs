@@ -31,7 +31,6 @@ namespace GameJoystik
 
         private static Joystik joystik;
 
-        public event Action<Vector3> onMove;
 
         #endregion
 
@@ -128,8 +127,6 @@ namespace GameJoystik
         private void SetInputDir (Vector3 point)
         {
             inputDir = point;
-
-            onMove?.Invoke(inputDir);
         }
 
         private void SetAnchoredPositionTouch (Vector3 point)
