@@ -8,11 +8,12 @@ namespace GameJoystik
 {
 
     [RequireComponent(typeof(Image))]
-    public class Joystik : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler, IRemoveObject
+    public class Joystik : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler, IRemoveObject, IInitObject
     {
 
         #region Constants
         private const int CHILD_INDEX_TOUCH = 0;
+        private const float OFFSET_TOUCH = 2.5f;
 
         #endregion
 
@@ -34,6 +35,11 @@ namespace GameJoystik
         #region Init components
         // Start is called before the first frame update
         void Awake()
+        {
+            Init();
+        }
+
+        public void Init()
         {
             if (joystik == null)
             {
@@ -67,11 +73,6 @@ namespace GameJoystik
 
         #endregion
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
 
         #region Interactions on UI
         public void OnPointerDown(PointerEventData eventData)
@@ -112,7 +113,7 @@ namespace GameJoystik
                     SetInputDir(inputDir.normalized);
                 }
 
-                Vector3 newPosTouch = new Vector3(inputDir.x * (sizeDelta.x / 2.5f), inputDir.y * (sizeDelta.y / 2.5f));
+                Vector3 newPosTouch = new Vector3(inputDir.x * (sizeDelta.x / OFFSET_TOUCH), inputDir.y * (sizeDelta.y / OFFSET_TOUCH));
                 SetAnchoredPositionTouch(newPosTouch);
                 
 
@@ -120,7 +121,7 @@ namespace GameJoystik
         }
 
         #endregion
-
+        
         private void SetInputDir (Vector3 point)
         {
             inputDir = point;
