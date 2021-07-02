@@ -26,13 +26,17 @@ namespace GameJoystik
 
         private Vector3 inputDir;
 
+        private static Joystik joystik;
+
+        #endregion
+
+
+        #region Properties
         public Vector3 InputDir { get => inputDir; }
         public static Joystik Active { get => joystik; }
 
-        private static Joystik joystik;
-
-
         #endregion
+
 
         #region Init components
         // Start is called before the first frame update
