@@ -1,4 +1,5 @@
-﻿using Character.Data;
+﻿using CameraGame;
+using Character.Data;
 using Client;
 using Inventory;
 using Photon.Pun;
@@ -62,6 +63,8 @@ namespace Character
             CurrentDataCharacter = new CharacterDynamicData(DefaultDataCharacter);
 
             Inventory = new InventoryCharacter();
+
+            FindObjectOfType<GameCamera>().SetTarget(transform);
 
         }
 
