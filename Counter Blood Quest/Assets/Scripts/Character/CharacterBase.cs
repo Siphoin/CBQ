@@ -1,10 +1,14 @@
-﻿using Client;
+﻿using Character.Data;
+using Client;
+using Inventory;
+using Photon.Pun;
 using SO.Character;
 using System.Collections;
 using UnityEngine;
 
 namespace Character
 {
+    [RequireComponent(typeof(PhotonTransformView))]
     public class CharacterBase : NetworkObject
     {
         #region Constants
@@ -14,11 +18,18 @@ namespace Character
 
         #region Fields
         protected Rigidbody2D body;
+
+
+
         #endregion
 
 
         #region Properties
-        public CharacterDefaultData DefaultDataCharacter { get; protected set; }
+        public CharacterDefaultData DefaultDataCharacter { get; private set; }
+
+        public CharacterDynamicData CurrentDataCharacter { get; private set; }
+
+        public InventoryCharacter Inventory { get; private set; }
         #endregion
         // Use this for initialization
         void Start()
@@ -47,6 +58,10 @@ namespace Character
             {
                 throw new CharacterException($"character {name} not have component Rightbody2D");
             }
+
+            CurrentDataCharacter = new CharacterDynamicData(DefaultDataCharacter);
+
+            Inventory = new InventoryCharacter();
 
         }
 
