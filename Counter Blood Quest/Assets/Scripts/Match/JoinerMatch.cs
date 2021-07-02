@@ -43,14 +43,10 @@ namespace Match
             }
         }
 
-        // Update is called once per frame
-        void Update()
-        {
 
-        }
+        #region Photon Callbacks
         public override void OnConnectedToMaster()
-        {
-            
+        {          
                 PhotonNetwork.JoinOrCreateRoom("TestRoom", new RoomOptions(), TypedLobby.Default);
             
         }
@@ -70,8 +66,10 @@ namespace Match
 
         }
 
-        
+        #endregion
 
+
+        #region Init components
         public void Init()
         {
             windowSelectComandPrefab = Resources.Load<WindowSelectComand>(PATH_PREFAB_WINDOW_SELECT_COMAND);
@@ -84,6 +82,8 @@ namespace Match
 
 
         }
+
+        #endregion
 
         private void CreateActiveWindowSelectComand ()
         {

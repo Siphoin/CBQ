@@ -45,7 +45,7 @@ namespace SO.Weapon
 
         #endregion
         #region Methods
-        private void Awake()
+        private void OnValidate()
         {
             if (startAmmunition > maxAmmunition)
             {

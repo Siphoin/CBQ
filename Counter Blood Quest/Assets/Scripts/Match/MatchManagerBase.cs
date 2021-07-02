@@ -10,13 +10,17 @@ namespace Match
     [RequireComponent(typeof(PhotonView))]
     public class MatchManagerBase : MonoBehaviour, IInitObject, IPunObservable, IInvokerMono
     {
+        #region Fields
         private DateTime timeMatch = new DateTime();
+        #endregion
 
         #region Events
         public event Action onInstatiate;
         #endregion
 
+        #region Properties
         private bool LocalPlayerIsMasterClient { get => PhotonNetwork.IsMasterClient; }
+        #endregion
         // Use this for initialization
         void Start()
         {
@@ -43,7 +47,7 @@ namespace Match
             CallInvokingEveryMethod(TickTimeMatch, 1);
 
         }
-
+        #region Time
         private void TickTimeMatch()
         {
             if (LocalPlayerIsMasterClient)
@@ -55,24 +59,29 @@ namespace Match
                 catch
                 {
 
-                   
+
                 }
             }
         }
 
-        private void SetStartTime ()
+        private void SetStartTime()
         {
             if (LocalPlayerIsMasterClient)
             {
                 timeMatch = timeMatch.AddMinutes(5);
             }
         }
+        #endregion
 
+        #region Init match manager
         public void Init()
         {
             PhotonPeer.RegisterType(typeof(DateTime), 242, DeserializatorDateTime.SerializeDateTime, DeserializatorDateTime.DeserializeDateTime);
         }
+        #endregion
 
+
+        #region Photon Callbacks
         public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
         {
             if (stream.IsWriting)
@@ -86,6 +95,7 @@ namespace Match
                 Debug.Log(timeMatch.ToString("mm:ss"));
             }
         }
+        #endregion
 
 
         public void CallInvokingEveryMethod(Action method, float time)
