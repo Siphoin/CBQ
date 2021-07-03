@@ -21,6 +21,8 @@ namespace UI
 
         public void Init()
         {
+            if (buttons == null)
+            {
             buttons = new Dictionary<ComandType, ComandUIElement>();
 
             ComandUIElement[] elements = FindObjectsOfType<ComandUIElement>();
@@ -33,6 +35,8 @@ namespace UI
 
                 element.onSelect += Element_onSelect;
             }
+            }
+            
         }
 
         private void Element_onSelect(ComandType comand)
@@ -57,6 +61,25 @@ namespace UI
 
             onSelect?.Invoke(selectedComand);
             base.Exit();
+        }
+
+        public void RefreshDataComand (ComandType comand, ComandUIData data)
+        {
+            if (data == null)
+            {
+                throw new WindowSelectComandException("data is null");
+            }
+            Init();
+
+
+            if (!buttons.ContainsKey(comand))
+            {
+                throw new WindowSelectComandException($"comand {comand} not found");
+            }
+
+            string text = $"{data.countPlayers} Players | {data.countBots} Bots";
+
+            buttons[comand].SetText(text);
         }
     }
 }

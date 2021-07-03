@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a9f6e84b2a174f86d868f1daf62e2, type: 3}
+  m_Name: stalker_characterClass
+  m_EditorClassIdentifier: 
+  nameClass: Stalker
+  description: Has little health, but has 20% of the damage of any weapon, but it
+    is better with a knife, then the damage will increase by 5%. Effective in stealth
+    mode, there is a camouflage ability, which makes the player translucent, but
+    still visible. Due to the increased damage, it is suitable for surprise attacks,
+    but it is weak if it is attacked with massive damage or surrounded. Death is
+    guaranteed in this case.
+  icon: {fileID: 21300000, guid: 8036455b66238ec4ca23080464908771, type: 3}
+  iconMini: {fileID: 21300000, guid: f4591eb43b670c94bb53651068ec2263, type: 3}
+  bonusHealthProcent: -50
+  bonusArmorProcent: 0
+  bonusDamageProcent: 20
+  bonusDamageEnabled: 1
+  bonusDamageWeapons:
+  - weaponType: 0
+    bonusDamage: 5

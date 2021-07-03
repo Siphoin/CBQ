@@ -1,17 +1,24 @@
-﻿using Match;
+﻿using Client.SO;
+using Match;
 using Photon.Pun;
+using Photon.Pun.UtilityScripts;
 using Photon.Realtime;
 using System;
 using System.Collections;
 using UI;
+using UI.LoadingSystem;
 using UnityEngine;
 
 namespace Match
 {
-    public class JoinerMatch : MonoBehaviourPunCallbacks, IInitObject
+    public class JoinerMatch : MonoBehaviourPunCallbacks, IInitObject, ICallerLoadingWait
     {
         #region Contstants
         private const string PATH_PREFAB_WINDOW_SELECT_COMAND = "Prefabs/UI/WindowSelectComand";
+        private const string PATH_SETTINGS_LOCAL_PLAYER_HASHTABLE = "SO/Client/Match/PlayerMatchSettings";
+        private const string PATH_PREFAB_WINDOW_SELECT_CLASS = "Prefabs/UI/WindowSelectClass";
+
+
 
         #endregion
         #region Fields
@@ -19,10 +26,16 @@ namespace Match
 
         private WindowSelectComand windowSelectComandActive;
 
+        private WindowSelectPlayerClass windowSelectPlayerClassPrefab;
+
+        private LoadingWait lastLoadingWait;
+
         [Header("Объект режима матча")]
         [SerializeField] private MatchManagerBase matchManager;
 
         private MatchManagerBase activeMatchManager = null;
+
+        private PlayerMatchSettings playerMatchSettings;
         #endregion
         // Use this for initialization
         void Start()
@@ -35,6 +48,8 @@ namespace Match
 
 
             Init();
+
+            CreateLoadingWait();
 
 
             if (!PhotonNetwork.IsConnected)
@@ -66,6 +81,23 @@ namespace Match
 
         }
 
+        public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+        {
+            if (targetPlayer == PhotonNetwork.LocalPlayer)
+            {
+
+#if UNITY_EDITOR
+
+                var hashtable = targetPlayer.CustomProperties;
+                Debug.Log($"You seted comand {(ComandType)hashtable["team"]}");
+#endif
+                RemoveLoadingWait();
+
+                Instantiate(windowSelectPlayerClassPrefab);
+                Destroy(gameObject);
+            }
+        }
+
         #endregion
 
 
@@ -79,6 +111,20 @@ namespace Match
                 throw new JoinerMatchException("prefab window select comand not found");
             }
 
+            windowSelectPlayerClassPrefab = Resources.Load<WindowSelectPlayerClass>(PATH_PREFAB_WINDOW_SELECT_CLASS);
+
+            if (!windowSelectPlayerClassPrefab)
+            {
+                throw new JoinerMatchException("prefab window select class not found");
+            }
+
+            playerMatchSettings = Resources.Load<PlayerMatchSettings>(PATH_SETTINGS_LOCAL_PLAYER_HASHTABLE);
+
+            if (!playerMatchSettings)
+            {
+                throw new JoinerMatchException("player match settings not found");
+            }
+
 
 
         }
@@ -90,6 +136,7 @@ namespace Match
             windowSelectComandActive = Instantiate(windowSelectComandPrefab);
             windowSelectComandActive.onSelect += SelectComand;
             windowSelectComandActive.onExit += UncribeEvents;
+            RemoveLoadingWait();
         }
 
         private void CreateMatchManager ()
@@ -121,15 +168,27 @@ namespace Match
             windowSelectComandActive.onExit -= UncribeEvents;
         }
 
-        private void SelectComand(ComandType obj)
+        private void SelectComand(ComandType comand)
         {
-            if (activeMatchManager != null)
+            Player localPlayer = PhotonNetwork.LocalPlayer;
+            localPlayer.SetCustomProperties(playerMatchSettings.CreateNewHashtablePlayer(comand));
+
+            // create loading wait, because wait setting custom properyies local player
+            CreateLoadingWait();
+        }
+
+        public void CreateLoadingWait()
+        {
+            lastLoadingWait = LoadingWaitManager.Manager.NewLoadingWait();
+        }
+
+        public void RemoveLoadingWait()
+        {
+            if (lastLoadingWait)
             {
-            activeMatchManager.NewRound();
+                lastLoadingWait.Exit();
             }
 
         }
-
-
     }
 }

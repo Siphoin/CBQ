@@ -7,7 +7,7 @@ using UnityEngine.UI;
 namespace UI
 {
     [RequireComponent(typeof(Button))]
-    public class ComandUIElement : MonoBehaviour, IInitObject
+    public class ComandUIElement : MonoBehaviour, IInitObject, ISeterText
     {
         #region Fields
         private Button button;
@@ -51,6 +51,11 @@ namespace UI
                 button.onClick.AddListener(Select);
             }
  
+        }
+
+        public void SetText(string text)
+        {
+            textInfo.text = text;
         }
 
         #endregion

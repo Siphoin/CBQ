@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840a9f6e84b2a174f86d868f1daf62e2, type: 3}
+  m_Name: veteran_characterClass
+  m_EditorClassIdentifier: 
+  nameClass: Veteran
+  description: It has a lot of health, namely +45% to basic health, but a reduced
+    armor of 10%. It has the ability "Rabies", in which the damage from the weapon
+    in the hand increases by 25%, and the defense is reduced by 60%. In this case,
+    the character is very vulnerable to normal attacks, especially sudden ones.
+  icon: {fileID: 21300000, guid: c909fd96dafabbc47bb070ec5ec5738d, type: 3}
+  iconMini: {fileID: 21300000, guid: bf795d3fbbfaa8340bee72fddc500219, type: 3}
+  bonusHealthProcent: 45
+  bonusArmorProcent: -10
+  bonusDamageProcent: 0
+  bonusDamageEnabled: 0
+  bonusDamageWeapons: []
