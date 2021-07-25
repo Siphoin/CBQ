@@ -59,7 +59,7 @@ namespace Inventory
                 return false;
             }
 
-            if (weaponList.Count(x => x.Type == weapon.Type) > 0)
+            if (weaponList.Any(x => x.Type == weapon.Type))
             {
                 return false;
             }
