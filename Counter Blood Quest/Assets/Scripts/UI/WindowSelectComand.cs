@@ -45,10 +45,7 @@ namespace UI
             Exit();
         }
         // Use this for initialization
-        void Start()
-        {
-            Init();
-        }
+        void Start() => Init();
 
 
         public override void Exit()
