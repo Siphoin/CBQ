@@ -44,16 +44,5 @@ namespace SO.Weapon
         public WeaponType Type { get => type; }
 
         #endregion
-        #region Methods
-        private void OnValidate()
-        {
-            if (startAmmunition > maxAmmunition)
-            {
-                startAmmunition = maxAmmunition;
-            }
-        }
-
-        #endregion
-
     }
 }
