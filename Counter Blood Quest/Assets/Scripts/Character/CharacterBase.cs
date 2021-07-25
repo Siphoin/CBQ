@@ -20,8 +20,6 @@ namespace Character
         #region Fields
         protected Rigidbody2D body;
 
-
-
         #endregion
 
 
@@ -32,17 +30,6 @@ namespace Character
 
         public InventoryCharacter Inventory { get; private set; }
         #endregion
-        // Use this for initialization
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
 
         public virtual void InitCharacter ()
         {
@@ -75,14 +62,8 @@ namespace Character
             {
                 return;
             }
-            // root to dir joystik local
-
-            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-
-            Quaternion root = Quaternion.AngleAxis(angle, Vector3.forward);
-
-            transform.rotation = Quaternion.Slerp(transform.rotation, root, DefaultDataCharacter.DefaultSpeedRotating * Time.deltaTime);
-
+           
+            
             // move
 
             Vector2 moveVelocity = dir.normalized * DefaultDataCharacter.DefaultSpeedMovement;
@@ -95,7 +76,19 @@ namespace Character
 
         public void SetSprite(Sprite sprite)
         {
+         // нет реализации
+        }
+        
+        public void Rotate(Vector3 dir) {
+        
+        
+            // root to dir joystik local
 
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+            Quaternion root = Quaternion.AngleAxis(angle, Vector3.forward);
+
+            transform.rotation = Quaternion.Slerp(transform.rotation, root, DefaultDataCharacter.DefaultSpeedRotating * Time.deltaTime);
         }
 
         #endregion
