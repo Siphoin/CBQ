@@ -19,10 +19,9 @@ namespace Character
 
 
         // Use this for initialization
-        void Start()
-        {
-            InitCharacter();
-        }
+        void Start() => InitCharacter();
+        
+        
 
         public override void InitCharacter()
         {
