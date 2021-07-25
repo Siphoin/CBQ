@@ -46,7 +46,8 @@ namespace Inventory
             {
                 throw new InventoryCharacterException($"current list weapon of the character contains the weapon {weapon.NameWeapon}");
             }
-
+             
+            weaponList.Add(weapon);
 
         }
 
