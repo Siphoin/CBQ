@@ -34,10 +34,9 @@ namespace Client
 
         #region Init components
 
-        void Start()
-        {
-            Init();
-        }
+        void Start() => Init();
+        
+        
         public virtual void Init()
         {
            if (!TryGetComponent(out networkView))
@@ -64,21 +63,10 @@ namespace Client
             }
         }
 
-        public void Remove(float time)
-        {
-            CallInvokingMethod(Remove, time);
-        }
+        public void Remove(float time) => CallInvokingMethod(Remove, time);
 
+        public void CallInvokingEveryMethod(Action method, float time) => InvokeRepeating(method.Method.Name, time, time);
 
-
-        public void CallInvokingEveryMethod(Action method, float time)
-        {
-            InvokeRepeating(method.Method.Name, time, time);
-        }
-
-        public void CallInvokingMethod(Action method, float time)
-        {
-            Invoke(method.Method.Name, time);
-        }
+        public void CallInvokingMethod(Action method, float time) => Invoke(method.Method.Name, time);
     }
 }
