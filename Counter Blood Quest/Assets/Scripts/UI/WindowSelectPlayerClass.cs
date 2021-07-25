@@ -247,19 +247,11 @@ namespace UI
             }
         }
 
-        public void CreateLoadingWait()
-        {
-            lastLoadingWait = LoadingWaitManager.Manager.NewLoadingWait();
-        }
+        public void CreateLoadingWait() => lastLoadingWait = LoadingWaitManager.Manager.NewLoadingWait();
 
-        public void RemoveLoadingWait()
-        {
-            if (lastLoadingWait)
-            {
-                lastLoadingWait.Exit();
-            }
-
-        }
+        public void RemoveLoadingWait() => if (lastLoadingWait) { lastLoadingWait.Exit(); }
+        
+        
         #endregion
 
     }
