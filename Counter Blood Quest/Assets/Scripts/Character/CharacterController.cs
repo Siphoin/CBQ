@@ -47,6 +47,7 @@ namespace Character
         private void Update()
         {
             Move(localJoystik.InputDir);
+            Rotate(localJoystik.InputDir);
         }
     }
 }
