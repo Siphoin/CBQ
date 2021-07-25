@@ -61,7 +61,7 @@ namespace UI
         
 
         // Use this for initialization
-        void Start() +> Init();
+        void Start() => Init();
         
     }
 }
