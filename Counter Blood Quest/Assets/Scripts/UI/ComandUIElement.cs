@@ -53,23 +53,15 @@ namespace UI
  
         }
 
-        public void SetText(string text)
-        {
-            textInfo.text = text;
-        }
+        public void SetText(string text) => textInfo.text = text;
 
         #endregion
 
-        private void Select()
-        {
-            onSelect?.Invoke(comandType);
-        }
+        private void Select() => onSelect?.Invoke(comandType);
+        
 
         // Use this for initialization
-        void Start()
-        {
-            Init();
-        }
-
+        void Start() +> Init();
+        
     }
 }
