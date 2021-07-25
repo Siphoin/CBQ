@@ -48,10 +48,8 @@ namespace Match
 
             CancelInvoke();
 
-            // set start time
             SetStartTime();
-
-
+            
             // call tick match time
             CallInvokingEveryMethod(TickTimeMatch, 1);
 
