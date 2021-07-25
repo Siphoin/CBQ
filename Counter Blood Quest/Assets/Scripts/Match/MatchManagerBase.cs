@@ -16,6 +16,7 @@ namespace Match
         #region Constants
         private const byte EVENT_CODE_CREATE_CHARACTER = 133;
         #endregion
+
         #region Fields
         private DateTime timeMatch = new DateTime();
         #endregion
@@ -27,12 +28,14 @@ namespace Match
         #region Properties
         private bool LocalPlayerIsMasterClient { get => PhotonNetwork.IsMasterClient; }
         #endregion
+
+
         // Use this for initialization
         void Start()
         {
             Init();
 
-                onInstatiate?.Invoke();
+               onInstatiate?.Invoke();
 
 #if UNITY_EDITOR
                 Debug.Log("match manager created and working...");
