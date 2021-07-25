@@ -21,6 +21,7 @@ namespace UI
         private TextMeshProUGUI textInfo;
 
         #endregion
+
         #region Properties
         public ComandType ComandType { get => comandType; }
 
@@ -29,7 +30,6 @@ namespace UI
         #region Events
         public event Action<ComandType> onSelect;
         #endregion
-
 
         #region Init components
         public void Init()

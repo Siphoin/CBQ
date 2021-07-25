@@ -19,7 +19,6 @@ namespace UI
         private const byte EVENT_CODE_CREATE_CHARACTER = 133;
         #endregion
 
-
         #region Fields
 
 
@@ -63,6 +62,7 @@ namespace UI
         #endregion
 
         #endregion
+
         #region Init window
         // Use this for initialization
         void Start()
