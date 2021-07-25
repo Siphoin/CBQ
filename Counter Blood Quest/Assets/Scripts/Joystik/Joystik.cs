@@ -81,17 +81,14 @@ namespace GameJoystik
 
 
         #region Interactions on UI
-        public void OnPointerDown(PointerEventData eventData)
-        {
-            OnDrag(eventData);
-        }
+        
+        
+        public void OnPointerDown(PointerEventData eventData) => OnDrag(eventData);
 
         public void OnPointerUp(PointerEventData eventData)
         {
             SetInputDir(Vector3.zero);
             SetAnchoredPositionTouch(inputDir);
-
-
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -128,25 +125,13 @@ namespace GameJoystik
 
         #endregion
         
-        private void SetInputDir (Vector3 point)
-        {
-            inputDir = point;
-        }
+        private void SetInputDir (Vector3 point) => inputDir = point;
 
-        private void SetAnchoredPositionTouch (Vector3 point)
-        {
-            touch.rectTransform.anchoredPosition = point;
-        }
+        private void SetAnchoredPositionTouch (Vector3 point) =>  touch.rectTransform.anchoredPosition = point;
 
-        public void Remove()
-        {
-            Destroy(gameObject);
-        }
+        public void Remove() => Destroy(gameObject);
 
-        public void Remove(float time)
-        {
-            Destroy(gameObject, time);
-        }
+        public void Remove(float time) => Destroy(gameObject, time);
     }
 
     
