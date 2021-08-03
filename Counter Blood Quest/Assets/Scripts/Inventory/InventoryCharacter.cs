@@ -110,7 +110,7 @@ namespace Inventory
 
             if (!weaponList.Contains(weapon))
             {
-                return true;
+                return false;
             }
 
             weaponList.Remove(weapon);
