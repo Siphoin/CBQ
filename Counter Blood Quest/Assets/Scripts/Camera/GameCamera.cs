@@ -5,14 +5,11 @@ namespace CameraGame
 {
     public class GameCamera : MonoBehaviour
     {
-        #region Fields
-        private Transform target;
-        #endregion
+        private Transform _target;
 
-        // Update is called once per frame
         void Update()
         {
-            if (target)
+            if (_target)
             {
                 Vector3 pos = target.position;
 
@@ -29,7 +26,7 @@ namespace CameraGame
                 throw new GameCameraException("argument target is null");
             }
 
-            this.target = target;
+            _target = target;
         }
         #endregion
     }
