@@ -9,17 +9,12 @@ namespace Inventory
     [Serializable]
   public  class InventoryCharacter
     {
-        #region Fields
-
-
         [JsonRequired]
-      private  List<WeaponDynamicData> weaponList;
-
-        #endregion
-        #region Constructors
+      private  List<WeaponDynamicData> _weaponList;
+      
         public InventoryCharacter ()
         {
-            weaponList = new List<WeaponDynamicData>();
+            _weaponList = new List<WeaponDynamicData>();
         }
 
         public InventoryCharacter (List<WeaponDynamicData> list)
@@ -29,25 +24,22 @@ namespace Inventory
                 throw new InventoryCharacterException("list is null");
             }
 
-            weaponList = list;
+            _weaponList = list;
         }
 
-        #endregion
 
         #region Interactions
 
         public void Add (WeaponDynamicData weapon)
         {
-
             CheckWeaponArgumentisNull(weapon);
 
-
-            if (weaponList.Contains(weapon))
+            if (_weaponList.Contains(weapon))
             {
                 throw new InventoryCharacterException($"current list weapon of the character contains the weapon {weapon.NameWeapon}");
             }
              
-            weaponList.Add(weapon);
+            _weaponList.Add(weapon);
 
         }
 
@@ -55,12 +47,12 @@ namespace Inventory
         {
             CheckWeaponArgumentisNull(weapon);
 
-            if (weaponList.Contains(weapon))
+            if (_weaponList.Contains(weapon))
             {
                 return false;
             }
 
-            if (weaponList.Any(x => x.Type == weapon.Type))
+            if (_weaponList.Any(x => x.Type == weapon.Type))
             {
                 return false;
             }
@@ -77,13 +69,13 @@ namespace Inventory
             }
 
 
-            if (index > weaponList.Count - 1)
+            if (index > _weaponList.Count - 1)
             {
                 weapon = null;
                 return false;
             }
 
-            weapon = weaponList.ElementAt(index);
+            weapon = _weaponList.ElementAt(index);
             return true;
         }
 
@@ -100,7 +92,7 @@ namespace Inventory
                 return false;
             }
 
-            weaponList.RemoveAt(index);
+            _weaponList.RemoveAt(index);
             return true;
         }
 
@@ -108,12 +100,13 @@ namespace Inventory
         {
             CheckWeaponArgumentisNull(weapon);
 
-            if (!weaponList.Contains(weapon))
+            if (!_weaponList.Contains(weapon))
             {
                 return false;
             }
 
-            weaponList.Remove(weapon);
+            _weaponList.Remove(weapon);
+            
             return true;
         }
 
