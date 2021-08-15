@@ -61,9 +61,7 @@ namespace Character
             if (dir == Vector3.zero)
             {
                 return;
-            }
-           
-            
+            }        
             // move
 
             Vector2 moveVelocity = dir.normalized * DefaultDataCharacter.DefaultSpeedMovement;
@@ -76,12 +74,11 @@ namespace Character
 
         public void SetSprite(Sprite sprite)
         {
-         // нет реализации
+          throw new NotImplementedException();
         }
         
         public void Rotate(Vector3 dir) {
-        
-        
+       
             // root to dir joystik local
 
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
