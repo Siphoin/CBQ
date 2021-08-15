@@ -69,9 +69,6 @@ namespace Character
             body.MovePosition(body.position + moveVelocity * Time.fixedDeltaTime);
 
         }
-
-
-
         public void SetSprite(Sprite sprite)
         {
           throw new NotImplementedException();
