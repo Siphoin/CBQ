@@ -31,8 +31,6 @@ namespace Character
                 _localJoystik = Joystik.Active;
 
             }
-
-
         }
 
         private void Update()
