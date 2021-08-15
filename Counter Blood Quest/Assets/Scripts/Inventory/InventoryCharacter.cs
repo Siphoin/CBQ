@@ -87,7 +87,7 @@ namespace Inventory
             }
 
 
-            if (index > weaponList.Count - 1)
+            if (index > _weaponList.Count - 1)
             {
                 return false;
             }
