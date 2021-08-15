@@ -22,26 +22,25 @@ namespace Match
 
         #endregion
         #region Fields
-        private WindowSelectComand windowSelectComandPrefab;
+        private WindowSelectComand _windowSelectComandPrefab;
 
-        private WindowSelectComand windowSelectComandActive;
+        private WindowSelectComand _windowSelectComandActive;
 
         private WindowSelectPlayerClass windowSelectPlayerClassPrefab;
 
-        private LoadingWait lastLoadingWait;
+        private LoadingWait _lastLoadingWait;
 
         [Header("Объект режима матча")]
-        [SerializeField] private MatchManagerBase matchManager;
+        [SerializeField] private MatchManagerBase _matchManager;
 
-        private MatchManagerBase activeMatchManager = null;
+        private MatchManagerBase _activeMatchManager;
 
-        private PlayerMatchSettings playerMatchSettings;
+        private PlayerMatchSettings _playerMatchSettings;
         #endregion
         // Use this for initialization
         void Start()
         {
-
-            if (!matchManager)
+            if (!_matchManager)
             {
                 throw new JoinerMatchException("match manager not seted");
             }
@@ -72,8 +71,7 @@ namespace Match
 
             if (!PhotonNetwork.IsMasterClient)
             {
-                activeMatchManager = FindObjectOfType<MatchManagerBase>();
-
+                _activeMatchManager = FindObjectOfType<MatchManagerBase>();
 
                 CreateActiveWindowSelectComand();
             }
@@ -104,9 +102,9 @@ namespace Match
         #region Init components
         public void Init()
         {
-            windowSelectComandPrefab = Resources.Load<WindowSelectComand>(PATH_PREFAB_WINDOW_SELECT_COMAND);
+            _windowSelectComandPrefab = Resources.Load<WindowSelectComand>(PATH_PREFAB_WINDOW_SELECT_COMAND);
 
-            if (!windowSelectComandPrefab)
+            if (!_windowSelectComandPrefab)
             {
                 throw new JoinerMatchException("prefab window select comand not found");
             }
@@ -118,14 +116,12 @@ namespace Match
                 throw new JoinerMatchException("prefab window select class not found");
             }
 
-            playerMatchSettings = Resources.Load<PlayerMatchSettings>(PATH_SETTINGS_LOCAL_PLAYER_HASHTABLE);
+            _playerMatchSettings = Resources.Load<PlayerMatchSettings>(PATH_SETTINGS_LOCAL_PLAYER_HASHTABLE);
 
-            if (!playerMatchSettings)
+            if (!_playerMatchSettings)
             {
                 throw new JoinerMatchException("player match settings not found");
             }
-
-
 
         }
 
@@ -133,9 +129,11 @@ namespace Match
 
         private void CreateActiveWindowSelectComand ()
         {
-            windowSelectComandActive = Instantiate(windowSelectComandPrefab);
-            windowSelectComandActive.onSelect += SelectComand;
-            windowSelectComandActive.onExit += UncribeEvents;
+            _windowSelectComandActive = Instantiate(_windowSelectComandPrefab);
+
+            _windowSelectComandActive.onSelect += SelectComand;
+            _windowSelectComandActive.onExit += UncribeEvents;
+
             RemoveLoadingWait();
         }
 
@@ -143,35 +141,34 @@ namespace Match
         {
             if (PhotonNetwork.IsMasterClient)
             {
+                GameObject go =   PhotonNetwork.InstantiateRoomObject(_matchManager.name, Vector3.zero, Quaternion.identity);
 
-
-             GameObject go =   PhotonNetwork.InstantiateRoomObject(matchManager.name, Vector3.zero, Quaternion.identity);
-
-                if (!go.TryGetComponent(out activeMatchManager))
+                if (!go.TryGetComponent(out _activeMatchManager))
                 {
                     throw new JoinerMatchException($"match manager {name} not have component Match Manager");
                 }
 
-                activeMatchManager.onInstatiate += MatchManagerCreated;
+                _activeMatchManager.onInstatiate += MatchManagerCreated;
             }
         }
 
         private void MatchManagerCreated()
         {
-            activeMatchManager.onInstatiate -= MatchManagerCreated;
+            _activeMatchManager.onInstatiate -= MatchManagerCreated;
+
             CreateActiveWindowSelectComand();
         }
 
         private void UncribeEvents()
         {
-            windowSelectComandActive.onSelect -= SelectComand;
-            windowSelectComandActive.onExit -= UncribeEvents;
+            _windowSelectComandActive.onSelect -= SelectComand;
+            _windowSelectComandActive.onExit -= UncribeEvents;
         }
 
         private void SelectComand(ComandType comand)
         {
             Player localPlayer = PhotonNetwork.LocalPlayer;
-            localPlayer.SetCustomProperties(playerMatchSettings.CreateNewHashtablePlayer(comand));
+            localPlayer.SetCustomProperties(_playerMatchSettings.CreateNewHashtablePlayer(comand));
 
             // create loading wait, because wait setting custom properyies local player
             CreateLoadingWait();
@@ -179,14 +176,14 @@ namespace Match
 
         public void CreateLoadingWait()
         {
-            lastLoadingWait = LoadingWaitManager.Manager.NewLoadingWait();
+            _lastLoadingWait = LoadingWaitManager.Manager.NewLoadingWait();
         }
 
         public void RemoveLoadingWait()
         {
-            if (lastLoadingWait)
+            if (_lastLoadingWait)
             {
-                lastLoadingWait.Exit();
+                _lastLoadingWait.Exit();
             }
 
         }

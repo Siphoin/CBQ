@@ -18,7 +18,7 @@ namespace Character
 
 
         #region Fields
-        protected Rigidbody2D body;
+        protected Rigidbody2D _body;
 
         #endregion
 
@@ -42,7 +42,7 @@ namespace Character
                 throw new CharacterException("default data character not found");
             }
 
-            if (!TryGetComponent(out body))
+            if (!TryGetComponent(out _body))
             {
                 throw new CharacterException($"character {name} not have component Rightbody2D");
             }
@@ -54,36 +54,39 @@ namespace Character
             FindObjectOfType<GameCamera>().SetTarget(transform);
 
         }
-
+        /// <summary>
+        /// move character to point
+        /// </summary>
+        /// <param name="dir">target point</param>
         #region Interactions
         public void Move(Vector3 dir)
         {
             if (dir == Vector3.zero)
             {
                 return;
-            }        
+            }
+            
             // move
 
             Vector2 moveVelocity = dir.normalized * DefaultDataCharacter.DefaultSpeedMovement;
 
-            body.MovePosition(body.position + moveVelocity * Time.fixedDeltaTime);
+            _body.MovePosition(_body.position + moveVelocity * Time.fixedDeltaTime);
 
         }
-        public void SetSprite(Sprite sprite)
-        {
-          throw new NotImplementedException();
-        }
-        
+
+        /// <summary>
+        /// rotate character to angle
+        /// </summary>
+        /// <param name="dir">direction target angle</param>
         public void Rotate(Vector3 dir) {
        
-            // root to dir joystik local
-
             float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
             Quaternion root = Quaternion.AngleAxis(angle, Vector3.forward);
 
             transform.rotation = Quaternion.Slerp(transform.rotation, root, DefaultDataCharacter.DefaultSpeedRotating * Time.deltaTime);
         }
+        public void SetSprite(Sprite sprite) => throw new NotImplementedException();
 
         #endregion
     }
