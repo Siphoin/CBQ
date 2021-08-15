@@ -148,13 +148,13 @@ namespace Match
                     throw new JoinerMatchException($"match manager {name} not have component Match Manager");
                 }
 
-                _activeMatchManager.onInstatiate += MatchManagerCreated;
+                _activeMatchManager.OnInstatiate += MatchManagerCreated;
             }
         }
 
         private void MatchManagerCreated()
         {
-            _activeMatchManager.onInstatiate -= MatchManagerCreated;
+            _activeMatchManager.OnInstatiate -= MatchManagerCreated;
 
             CreateActiveWindowSelectComand();
         }

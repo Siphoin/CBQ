@@ -17,16 +17,12 @@ namespace Match
         private const byte EVENT_CODE_CREATE_CHARACTER = 133;
         #endregion
 
-        #region Fields
-        private DateTime timeMatch = new DateTime();
-        #endregion
+        private DateTime _timeMatch = new DateTime();
 
-        #region Events
-        public event Action onInstatiate;
-        #endregion
+        public event Action OnInstatiate;
 
         #region Properties
-        private bool LocalPlayerIsMasterClient { get => PhotonNetwork.IsMasterClient; }
+        private bool LocalPlayerIsMasterClient => PhotonNetwork.IsMasterClient;
         #endregion
 
 
@@ -35,7 +31,7 @@ namespace Match
         {
             Init();
 
-               onInstatiate?.Invoke();
+           OnInstatiate?.Invoke();
 
 #if UNITY_EDITOR
                 Debug.Log("match manager created and working...");
@@ -48,12 +44,12 @@ namespace Match
         {
             // cancel all old invokes on mono
 
-
             CancelInvoke();
 
             SetStartTime();
             
             // call tick match time
+
             CallInvokingEveryMethod(TickTimeMatch, 1);
 
         }
@@ -64,11 +60,10 @@ namespace Match
             {
                 try
                 {
-                    timeMatch = timeMatch.AddSeconds(-1);
+                    _timeMatch = _timeMatch.AddSeconds(-1);
                 }
                 catch
                 {
-
 
                 }
             }
@@ -78,7 +73,7 @@ namespace Match
         {
             if (LocalPlayerIsMasterClient)
             {
-                timeMatch = timeMatch.AddMinutes(5);
+                _timeMatch = _timeMatch.AddMinutes(5);
             }
         }
         #endregion
@@ -97,13 +92,14 @@ namespace Match
         {
             if (stream.IsWriting)
             {
-                stream.SendNext(timeMatch);
+                stream.SendNext(_timeMatch);
             }
 
             else
             {
-                timeMatch = (DateTime)stream.ReceiveNext();
-                Debug.Log(timeMatch.ToString("mm:ss"));
+                _timeMatch = (DateTime)stream.ReceiveNext();
+
+                Debug.Log(_timeMatch.ToString("mm:ss"));
             }
         }
 
@@ -122,8 +118,11 @@ namespace Match
                     if (item.Value is object[])
                     {
                         object[] data = (object[])item.Value;
+
                         ComandType comand = (ComandType)data[0];
+
                         int classIndex = (int)data[1];
+
                         string nickName = (string)data[2];
 
                         Player target = PhotonNetwork.PlayerList.First(pl => pl.NickName == nickName);
@@ -150,16 +149,6 @@ namespace Match
         #endregion
 
 
-        public void CallInvokingEveryMethod(Action method, float time)
-        {
-            InvokeRepeating(method.Method.Name, time, time);
-        }
-
-        public void CallInvokingMethod(Action method, float time)
-        {
-            Invoke(method.Method.Name, time);
-        }
-
         public void SendRPC(Action action, RpcTarget target = RpcTarget.All, params object[] parameters)
         {
             photonView.RPC(action.Method.Name, target, parameters);
@@ -169,5 +158,9 @@ namespace Match
         {
             photonView.RpcSecure(action.Method.Name, target, encrypt, parameters);
         }
+
+        public void CallInvokingEveryMethod(Action method, float time) => InvokeRepeating(method.Method.Name, time, time);
+
+        public void CallInvokingMethod(Action method, float time) => Invoke(method.Method.Name, time);
     }
 }
