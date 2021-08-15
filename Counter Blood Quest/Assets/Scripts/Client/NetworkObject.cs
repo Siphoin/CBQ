@@ -8,44 +8,20 @@ namespace Client
     [RequireComponent(typeof(PhotonView))]
     public class NetworkObject : MonoBehaviour, IInitObject, IRemoveObject, IInvokerMono
     {
-        #region Fields
-        private PhotonView networkView;
+        private PhotonView _networkView;
 
-        #endregion
+        public bool IsMine => _networkView == null ? false : _networkView.IsMine;
 
-        #region Properties
+        public string OwnerNickName => _networkView == null ? string.Empty : _networkView.Owner.NickName;
 
-        public bool IsMine        
-        {
-            get
-            {
-                return networkView == null ? false : networkView.IsMine;
-
-
-            } }
-
-        public string OwnerNickName { get
-            {
-                return networkView == null ? string.Empty : networkView.Owner.NickName;
-            } }
-
-
-        #endregion
-
-        #region Init components
-
-        void Start() => Init();
-        
-        
         public virtual void Init()
         {
-           if (!TryGetComponent(out networkView))
+           if (!TryGetComponent(out _networkView))
             {
                 throw new NetworkObjectException($"{name} not have component Photon View");
             }
         }
 
-        #endregion
 
         public void Remove()
         {
@@ -62,6 +38,8 @@ namespace Client
                 Destroy(gameObject);
             }
         }
+        
+        private void Start() => Init();
 
         public void Remove(float time) => CallInvokingMethod(Remove, time);
 
