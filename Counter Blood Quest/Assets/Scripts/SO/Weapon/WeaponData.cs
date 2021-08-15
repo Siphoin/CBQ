@@ -10,38 +10,38 @@ namespace SO.Weapon
     {
         #region Fields
         [Header("Название оружия")]
-        [SerializeField] private string nameWeapon;
+        [SerializeField] private string _nameWeapon;
 
         [Header("Описание оружия")]
         [TextArea]
-        [SerializeField] private string descriptionWeapon;
+        [SerializeField] private string _descriptionWeapon;
 
         [Header("Максимальное кол-во патронов в обойме")]
-        [SerializeField] private int maxAmmunition;
+        [SerializeField] private int _maxAmmunition;
 
         [Header("Текущее кол-во патронов в обойме")]
-        [SerializeField] private int startAmmunition;
+        [SerializeField] private int _startAmmunition;
 
         [Header("Урон")]
-        [SerializeField] private uint damage;
+        [SerializeField] private uint _damage;
 
         [Header("Иконка")]
-        [SerializeField] private Sprite icon;
+        [SerializeField] private Sprite _icon;
 
         [Header("Тип оружия")]
-        [SerializeField] private WeaponType type = WeaponType.Gun;
+        [SerializeField] private WeaponType _type = WeaponType.Gun;
 
         #endregion
 
 
         #region Properties
-        public string NameWeapon { get => nameWeapon; }
-        public string DescriptionWeapon { get => descriptionWeapon; }
-        public int MaxAmmunition { get => maxAmmunition; }
-        public int StartAmmunition { get => startAmmunition; }
-        public int Damage { get => (int)damage; }
-        public Sprite Icon { get => icon; }
-        public WeaponType Type { get => type; }
+        public string NameWeapon => _nameWeapon;
+        public string DescriptionWeapon => _descriptionWeapon;
+        public int MaxAmmunition => _maxAmmunition;
+        public int StartAmmunition => _startAmmunition;
+        public int Damage => (int)_damage;
+        public Sprite Icon => _icon;
+        public WeaponType Type => _type;
 
         #endregion
     }
