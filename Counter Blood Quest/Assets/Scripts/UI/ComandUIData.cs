@@ -5,13 +5,8 @@ namespace UI
     [Serializable]
   public  class ComandUIData
     {
-        #region Fields
         public int countBots = 0;
         public int countPlayers = 0;
-
-        #endregion
-
-        #region Constructors
 
         public ComandUIData ()
         {
@@ -24,6 +19,5 @@ namespace UI
             this.countPlayers = countPlayers;
         }
 
-        #endregion
     }
 }
