@@ -7,23 +7,23 @@ namespace SO.Character
     {
         #region Fields
         [Header("Изначальное значение здоровья персонажа")]
-        [SerializeField] private int defaultHealth = 100;
+        [SerializeField] private int _defaultHealth = 100;
 
         [Header("Изначальное значение защиты персонажа")]
-        [SerializeField] private int defaultArmor = 0;
+        [SerializeField] private int _defaultArmor = 0;
 
         [Header("Изначальное значение скорости передвижения персонажа")]
-        [SerializeField] private float defaultSpeedMovement = 5;
+        [SerializeField] private float _defaultSpeedMovement = 5;
 
         [Header("Изначальное значение скорости вращения персонажа")]
-        [SerializeField] private int defaultSpeedRotating = 10;
+        [SerializeField] private int _defaultSpeedRotating = 10;
 
         #endregion
         #region Properties
-        public int DefaultHealth { get => defaultHealth; }
-        public int DefaultArmor { get => defaultArmor; }
-        public float DefaultSpeedMovement { get => defaultSpeedMovement; }
-        public int DefaultSpeedRotating { get => defaultSpeedRotating; }
+        public int DefaultHealth => _defaultHealth;
+        public int DefaultArmor => _defaultArmor; 
+        public float DefaultSpeedMovement => _defaultSpeedMovement;
+        public int DefaultSpeedRotating => _defaultSpeedRotating;
 
         #endregion
     }
