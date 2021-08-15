@@ -6,15 +6,10 @@ namespace UI
 
     public class Window : MonoBehaviour
     {
-        #region Events
-        public event Action onExit;
-        #endregion
-        // Use this for initialization
-
-
+        public event Action OnExit;
         public virtual void Exit()
         {
-            onExit?.Invoke();
+            OnExit?.Invoke();
 
             Destroy(gameObject);
         }

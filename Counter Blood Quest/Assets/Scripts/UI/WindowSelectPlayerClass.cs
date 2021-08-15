@@ -22,35 +22,35 @@ namespace UI
         #region Fields
 
 
-        private int currentIndexSelectedClass = 0;
+        private int _currentIndexSelectedClass = 0;
 
 
-        private CharacterClassSettings[] classes;
+        private CharacterClassSettings[] _classes;
 
 
         [Header("Кнопка назад")]
-        [SerializeField] private Button buttonBack;
+        [SerializeField] private Button _buttonBack;
 
         [Header("Кнопка вперед")]
-        [SerializeField] private Button buttonNext;
+        [SerializeField] private Button _buttonNext;
 
         [Header("Кнопка выбрать")]
-        [SerializeField] private Button buttonSelect;
+        [SerializeField] private Button _buttonSelect;
 
         [Header("Пиктограмма класса персонажа")]
-        [SerializeField] private Image pictogram;
+        [SerializeField] private Image _pictogram;
 
         [Header("Мини-иконка класса")]
-        [SerializeField] private Image pictogramMini;
+        [SerializeField] private Image _pictogramMini;
 
 
         [Header("Текст названия класса")]
-        [SerializeField] private TextMeshProUGUI label;
+        [SerializeField] private TextMeshProUGUI _label;
 
         [Header("Текст описания класса")]
-        [SerializeField] private TextMeshProUGUI textDescription;
+        [SerializeField] private TextMeshProUGUI _textDescription;
 
-        private LoadingWait lastLoadingWait;
+        private LoadingWait _lastLoadingWait;
 
 
 
@@ -64,63 +64,58 @@ namespace UI
         #endregion
 
         #region Init window
-        // Use this for initialization
-        void Start()
-        {
-            Init();
-        }
 
         public void Init()
         {
-            if (!buttonSelect)
+            if (!_buttonSelect)
             {
                 throw new WindowSelectPlayerClassException("button select not seted");
             }
 
 
-            if (!buttonBack)
+            if (!_buttonBack)
             {
                 throw new WindowSelectPlayerClassException("button back not seted");
             }
 
-            if (!buttonNext)
+            if (!_buttonNext)
             {
                 throw new WindowSelectPlayerClassException("button next not seted");
             }
 
 
-            if (!pictogram)
+            if (!_pictogram)
             {
                 throw new WindowSelectPlayerClassException("pictogram not seted");
             }
 
-            if (!pictogramMini)
+            if (!_pictogramMini)
             {
                 throw new WindowSelectPlayerClassException("pictogram mini not seted");
             }
 
-            if (!textDescription)
+            if (!_textDescription)
             {
                 throw new WindowSelectPlayerClassException("text description not seted");
             }
 
-            if (!label)
+            if (!_label)
             {
                 throw new WindowSelectPlayerClassException("label not seted");
             }
 
 
-            classes = Resources.LoadAll<CharacterClassSettings>(PATH_CLASSES);
+            _classes = Resources.LoadAll<CharacterClassSettings>(PATH_CLASSES);
 
-            if (classes.Length == 0)
+            if (_classes.Length == 0)
             {
                 throw new WindowSelectPlayerClassException("list classes of character not found");
             }
 
-            AddCombineListener(arrowBackInteraction, buttonBack, BackClass);
-            AddCombineListener(arrowNextInteraction, buttonNext, NextClass);
+            AddCombineListener(arrowBackInteraction, _buttonBack, BackClass);
+            AddCombineListener(arrowNextInteraction, _buttonNext, NextClass);
 
-            buttonSelect.onClick.AddListener(Select);
+            _buttonSelect.onClick.AddListener(Select);
 
             ShowCurrentInfoClass();
 
@@ -130,14 +125,11 @@ namespace UI
         {
             ExitGames.Client.Photon.Hashtable hashTablePlayer = PhotonNetwork.LocalPlayer.CustomProperties;
 
-
-            hashTablePlayer.Add("class", currentIndexSelectedClass);
+            hashTablePlayer.Add("class", _currentIndexSelectedClass);
 
             PhotonNetwork.LocalPlayer.SetCustomProperties(hashTablePlayer);
 
-
             // create loading wait, because wait setting custom properyies local player
-
 
             CreateLoadingWait();
 
@@ -150,12 +142,12 @@ namespace UI
         #region Arrows UI
         private void BackClass()
         {
-            if (currentIndexSelectedClass == 0)
+            if (_currentIndexSelectedClass == 0)
             {
                 return;
             }
 
-            currentIndexSelectedClass--;
+            _currentIndexSelectedClass--;
             
 
 
@@ -163,12 +155,12 @@ namespace UI
 
         private void NextClass()
         {
-            if (currentIndexSelectedClass >= classes.Length - 1)
+            if (_currentIndexSelectedClass >= _classes.Length - 1)
             {
                 return;
             }
 
-            currentIndexSelectedClass++;
+            _currentIndexSelectedClass++;
         }
 
 
@@ -176,13 +168,13 @@ namespace UI
 
         private void ShowCurrentInfoClass ()
         {
-            CharacterClassSettings currentClass = classes[currentIndexSelectedClass];
+            CharacterClassSettings currentClass = _classes[_currentIndexSelectedClass];
 
-            label.text = currentClass.NameClass;
+            _label.text = currentClass.NameClass;
 
-            textDescription.text = currentClass.Description;
-            pictogram.sprite = currentClass.Icon;
-            pictogramMini.sprite = currentClass.IconMini;
+            _textDescription.text = currentClass.Description;
+            _pictogram.sprite = currentClass.Icon;
+            _pictogramMini.sprite = currentClass.IconMini;
 
         }
 
@@ -207,8 +199,8 @@ namespace UI
 
         public void Exit()
         {
-            RemoveCombineListener(arrowBackInteraction, buttonBack, BackClass);
-            RemoveCombineListener(arrowNextInteraction, buttonNext, NextClass);
+            RemoveCombineListener(arrowBackInteraction, _buttonBack, BackClass);
+            RemoveCombineListener(arrowNextInteraction, _buttonNext, NextClass);
 
             RemoveLoadingWait();
 
@@ -217,7 +209,7 @@ namespace UI
            
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.MasterClient };
 
-            object data = new object[] { PhotonNetwork.LocalPlayer.CustomProperties["team"], currentIndexSelectedClass, PhotonNetwork.LocalPlayer.NickName };
+            object data = new object[] { PhotonNetwork.LocalPlayer.CustomProperties["team"], _currentIndexSelectedClass, PhotonNetwork.LocalPlayer.NickName };
 
 
             ExitGames.Client.Photon.SendOptions sendOptions = new ExitGames.Client.Photon.SendOptions();
@@ -247,13 +239,15 @@ namespace UI
             }
         }
 
-        public void CreateLoadingWait() => lastLoadingWait = LoadingWaitManager.Manager.NewLoadingWait();
-
         public void RemoveLoadingWait() {
-            if (lastLoadingWait) lastLoadingWait.Exit();
-        } 
-        
-        
+            if (_lastLoadingWait) _lastLoadingWait.Exit();
+        }
+
+
+        void Start() => Init();
+        public void CreateLoadingWait() => _lastLoadingWait = LoadingWaitManager.Manager.NewLoadingWait();
+
+
         #endregion
 
     }

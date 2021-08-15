@@ -9,59 +9,51 @@ namespace UI
     [RequireComponent(typeof(Button))]
     public class ComandUIElement : MonoBehaviour, IInitObject, ISeterText
     {
-        #region Fields
-        private Button button;
+        private Button _button;
 
         [SerializeField]
         [Header("Команда")]
-        private ComandType comandType = ComandType.Blue;
+        private ComandType _comandType = ComandType.Blue;
 
         [SerializeField]
         [Header("Текст информации о команде")]
-        private TextMeshProUGUI textInfo;
+        private TextMeshProUGUI _textInfo;
 
-        #endregion
+        public event Action<ComandType> OnSelect;
 
-        #region Properties
-        public ComandType ComandType { get => comandType; }
-
-        #endregion
-
-        #region Events
-        public event Action<ComandType> onSelect;
-        #endregion
+        public ComandType ComandType => _comandType;
 
         #region Init components
         public void Init()
         {
 
-            if (!textInfo)
+            if (!_textInfo)
             {
                 throw new ComandUIElementException($"button ui comand {name} not seted text info");
             }
 
 
-            if (button == null)
+            if (_button == null)
             {
-           if (!TryGetComponent(out button))
+           if (!TryGetComponent(out _button))
             {
                 throw new ComandUIElementException($"{name} not have component UnityEngine.UI Button");
             }
 
-                button.onClick.AddListener(Select);
+                _button.onClick.AddListener(Select);
             }
  
         }
 
-        public void SetText(string text) => textInfo.text = text;
+        public void SetText(string text) => _textInfo.text = text;
 
         #endregion
 
-        private void Select() => onSelect?.Invoke(comandType);
+        void Start() => Init();
+
+        private void Select() => OnSelect?.Invoke(_comandType);
         
 
-        // Use this for initialization
-        void Start() => Init();
         
     }
 }

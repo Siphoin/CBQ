@@ -9,9 +9,9 @@ namespace UI
     public class WindowSelectComand : Window, IInitObject
     {
         #region Fields
-        private Dictionary<ComandType, ComandUIElement> buttons;
+        private Dictionary<ComandType, ComandUIElement> _buttons;
 
-        private ComandType selectedComand;
+        private ComandType _selectedComand;
         #endregion
 
 
@@ -21,9 +21,9 @@ namespace UI
 
         public void Init()
         {
-            if (buttons == null)
+            if (_buttons == null)
             {
-            buttons = new Dictionary<ComandType, ComandUIElement>();
+            _buttons = new Dictionary<ComandType, ComandUIElement>();
 
             ComandUIElement[] elements = FindObjectsOfType<ComandUIElement>();
 
@@ -31,9 +31,9 @@ namespace UI
             {
                 ComandUIElement element = elements[i];
 
-                buttons.Add(element.ComandType, element);
+                _buttons.Add(element.ComandType, element);
 
-                element.onSelect += Element_onSelect;
+                element.OnSelect += Element_onSelect;
             }
             }
             
@@ -41,7 +41,8 @@ namespace UI
 
         private void Element_onSelect(ComandType comand)
         {
-            selectedComand = comand;
+            _selectedComand = comand;
+
             Exit();
         }
         // Use this for initialization
@@ -50,13 +51,13 @@ namespace UI
 
         public override void Exit()
         {
-            foreach (var btn in buttons)
+            foreach (var btn in _buttons)
             {
-                btn.Value.onSelect -= Element_onSelect;
+                btn.Value.OnSelect -= Element_onSelect;
             }
 
 
-            onSelect?.Invoke(selectedComand);
+            onSelect?.Invoke(_selectedComand);
             base.Exit();
         }
 
@@ -69,14 +70,14 @@ namespace UI
             Init();
 
 
-            if (!buttons.ContainsKey(comand))
+            if (!_buttons.ContainsKey(comand))
             {
                 throw new WindowSelectComandException($"comand {comand} not found");
             }
 
             string text = $"{data.countPlayers} Players | {data.countBots} Bots";
 
-            buttons[comand].SetText(text);
+            _buttons[comand].SetText(text);
         }
     }
 }

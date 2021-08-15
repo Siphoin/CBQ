@@ -132,7 +132,7 @@ namespace Match
             _windowSelectComandActive = Instantiate(_windowSelectComandPrefab);
 
             _windowSelectComandActive.onSelect += SelectComand;
-            _windowSelectComandActive.onExit += UncribeEvents;
+            _windowSelectComandActive.OnExit += UncribeEvents;
 
             RemoveLoadingWait();
         }
@@ -162,7 +162,7 @@ namespace Match
         private void UncribeEvents()
         {
             _windowSelectComandActive.onSelect -= SelectComand;
-            _windowSelectComandActive.onExit -= UncribeEvents;
+            _windowSelectComandActive.OnExit -= UncribeEvents;
         }
 
         private void SelectComand(ComandType comand)
