@@ -18,7 +18,7 @@ namespace CameraGame
                 transform.position = pos;
             }
         }
-        #region Interaction
+        
         public void SetTarget(Transform target)
         {
             if (target == null)
@@ -28,6 +28,5 @@ namespace CameraGame
 
             _target = target;
         }
-        #endregion
     }
 }
