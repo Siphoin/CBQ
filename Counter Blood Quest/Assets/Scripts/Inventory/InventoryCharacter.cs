@@ -58,6 +58,7 @@ namespace Inventory
             }
 
             Add(weapon);
+            
             return true;
         }
 
@@ -76,6 +77,7 @@ namespace Inventory
             }
 
             weapon = _weaponList.ElementAt(index);
+            
             return true;
         }
 
