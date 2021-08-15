@@ -10,18 +10,10 @@ namespace Character
     [RequireComponent(typeof(Rigidbody2D))]
     public class CharacterController : CharacterBase, ISeterSprite, IInitObject
     {
-        #region Fields
-        private Joystik localJoystik;
+        private Joystik _localJoystik;
 
-        private Rigidbody2D body;
-
-        #endregion
-
-
-        // Use this for initialization
-        void Start() => InitCharacter();
-        
-        
+        private Rigidbody2D _body;
+    
 
         public override void InitCharacter()
         {
@@ -34,9 +26,9 @@ namespace Character
             }
 
 
-            if (!localJoystik)
+            if (!_localJoystik)
             {
-                localJoystik = Joystik.Active;
+                _localJoystik = Joystik.Active;
 
             }
 
@@ -46,7 +38,10 @@ namespace Character
         private void Update()
         {
             Move(localJoystik.InputDir);
+            
             Rotate(localJoystik.InputDir);
         }
+        
+       void Start() => InitCharacter();
     }
 }
