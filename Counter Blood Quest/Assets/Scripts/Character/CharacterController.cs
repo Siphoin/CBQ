@@ -1,7 +1,4 @@
-﻿using Client;
-using GameJoystik;
-using System;
-using System.Collections;
+﻿using GameJoystik;
 using UnityEngine;
 
 namespace Character
@@ -12,13 +9,9 @@ namespace Character
     {
         private Joystik _localJoystik;
 
-        private Rigidbody2D _body;
-    
-
         public override void InitCharacter()
         {
             base.InitCharacter();
-
 
             if (!Joystik.Active)
             {
@@ -35,9 +28,9 @@ namespace Character
 
         private void Update()
         {
-            Move(localJoystik.InputDir);
+            Move(_localJoystik.InputDir);
             
-            Rotate(localJoystik.InputDir);
+            Rotate(_localJoystik.InputDir);
         }
         
        void Start() => InitCharacter();
