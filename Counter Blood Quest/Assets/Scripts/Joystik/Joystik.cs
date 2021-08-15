@@ -21,35 +21,30 @@ namespace GameJoystik
         #region Fields
 
 
-        private Image treshold;
-        private Image touch;
+        private Image _treshold;
+        private Image _touch;
 
-        private Vector3 inputDir;
+        private Vector3 _inputDir;
 
-        private static Joystik joystik;
+        private static Joystik _joystik;
 
         #endregion
 
 
         #region Properties
-        public Vector3 InputDir { get => inputDir; }
-        public static Joystik Active { get => joystik; }
+        public Vector3 InputDir => _inputDir;
+        public static Joystik Active => _joystik;
 
         #endregion
 
 
         #region Init components
-        // Start is called before the first frame update
-        void Awake()
-        {
-            Init();
-        }
 
         public void Init()
         {
-            if (joystik == null)
+            if (_joystik == null)
             {
-                if (!TryGetComponent(out treshold))
+                if (!TryGetComponent(out _treshold))
                 {
                     throw new JoystikException($"{name} not have component UnityEngine.UI.Image");
                 }
@@ -63,12 +58,12 @@ namespace GameJoystik
                 GameObject touchObj = transform.GetChild(CHILD_INDEX_TOUCH).gameObject;
 
 
-                if (!touchObj.TryGetComponent(out touch))
+                if (!touchObj.TryGetComponent(out _touch))
                 {
                     throw new JoystikException($"{touchObj.name} not have component UnityEngine.UI.Image");
                 }
 
-                joystik = this;
+                _joystik = this;
             }
 
             else
@@ -83,51 +78,55 @@ namespace GameJoystik
         #region Interactions on UI
         
         
-        public void OnPointerDown(PointerEventData eventData) => OnDrag(eventData);
 
         public void OnPointerUp(PointerEventData eventData)
         {
             SetInputDir(Vector3.zero);
-            SetAnchoredPositionTouch(inputDir);
+
+            SetAnchoredPositionTouch(_inputDir);
         }
 
         public void OnDrag(PointerEventData eventData)
         {
             Vector2 position = Vector2.zero;
 
-            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(treshold.rectTransform, eventData.position, eventData.pressEventCamera, out position))
+            if (RectTransformUtility.ScreenPointToLocalPointInRectangle(_treshold.rectTransform, eventData.position, eventData.pressEventCamera, out position))
             {
-                Vector3 sizeDelta = treshold.rectTransform.sizeDelta;
+                Vector3 sizeDelta = _treshold.rectTransform.sizeDelta;
 
 
                 position.x = (position.x / sizeDelta.x);
                 position.y = (position.y / sizeDelta.y);
 
-                Vector3 pivotTreshold = treshold.rectTransform.pivot;
+                Vector3 pivot_treshold = _treshold.rectTransform.pivot;
 
-                float x = pivotTreshold.x == 1f ? position.x * 2 + 1 : position.x * 2 - 1;
-                float y = pivotTreshold.y == 1f ? position.y * 2 + 1 : position.y * 2 - 1;
+                float x = pivot_treshold.x == 1f ? position.x * 2 + 1 : position.x * 2 - 1;
+                float y = pivot_treshold.y == 1f ? position.y * 2 + 1 : position.y * 2 - 1;
 
 
                 SetInputDir(new Vector3(x, y, 0));
 
-                if (inputDir.magnitude > 1)
+                if (_inputDir.magnitude > 1)
                 {
-                    SetInputDir(inputDir.normalized);
+                    SetInputDir(_inputDir.normalized);
                 }
 
-                Vector3 newPosTouch = new Vector3(inputDir.x * (sizeDelta.x / OFFSET_TOUCH), inputDir.y * (sizeDelta.y / OFFSET_TOUCH));
-                SetAnchoredPositionTouch(newPosTouch);
+                Vector3 newPostouch = new Vector3(_inputDir.x * (sizeDelta.x / OFFSET_TOUCH), _inputDir.y * (sizeDelta.y / OFFSET_TOUCH));
+
+                SetAnchoredPositionTouch(newPostouch);
                 
 
             }
         }
 
         #endregion
-        
-        private void SetInputDir (Vector3 point) => inputDir = point;
+        void Awake() => Init();
 
-        private void SetAnchoredPositionTouch (Vector3 point) =>  touch.rectTransform.anchoredPosition = point;
+        public void OnPointerDown(PointerEventData eventData) => OnDrag(eventData);
+
+        private void SetInputDir (Vector3 point) => _inputDir = point;
+
+        private void SetAnchoredPositionTouch (Vector3 point) =>  _touch.rectTransform.anchoredPosition = point;
 
         public void Remove() => Destroy(gameObject);
 
