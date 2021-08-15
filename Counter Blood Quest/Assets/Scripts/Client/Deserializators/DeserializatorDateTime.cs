@@ -8,7 +8,6 @@ namespace Client.Deserializators
     {
         public static object DeserializeDateTime (byte[] data)
         {
-
             long ticks = BitConverter.ToInt64(data, 0);
 
             return new DateTime(ticks);
@@ -20,9 +19,7 @@ namespace Client.Deserializators
 
             byte[] result = new byte[8];
 
-
            BitConverter.GetBytes(time.Ticks).CopyTo(result, 0);
-
 
             return result;
         }
