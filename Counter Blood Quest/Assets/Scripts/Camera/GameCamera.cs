@@ -11,7 +11,7 @@ namespace CameraGame
         {
             if (_target)
             {
-                Vector3 pos = target.position;
+                Vector3 pos = _target.position;
 
                 pos.z = transform.position.z;
 

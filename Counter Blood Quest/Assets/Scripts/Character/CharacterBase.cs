@@ -4,7 +4,7 @@ using Client;
 using Inventory;
 using Photon.Pun;
 using SO.Character;
-using System.Collections;
+using System;
 using UnityEngine;
 
 namespace Character
