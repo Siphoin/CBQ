@@ -22,8 +22,9 @@ namespace SO.Character
         #region Properties
         public int DefaultHealth => _defaultHealth;
         public int DefaultArmor => _defaultArmor; 
-        public float DefaultSpeedMovement => _defaultSpeedMovement;
         public int DefaultSpeedRotating => _defaultSpeedRotating;
+        
+        public float DefaultSpeedMovement => _defaultSpeedMovement;
 
         #endregion
     }
