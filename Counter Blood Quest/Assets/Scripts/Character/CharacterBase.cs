@@ -10,7 +10,7 @@ using UnityEngine;
 namespace Character
 {
     [RequireComponent(typeof(PhotonTransformView))]
-    public class CharacterBase : NetworkObject
+    public abstract class CharacterBase : NetworkObject
     {
         #region Constants
         private const string PATH_DATA_DEFAULT_CHARACTER = "SO/Character/CharacterDefaultSettings";
